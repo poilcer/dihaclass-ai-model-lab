@@ -1,0 +1,14 @@
+name: Verify public examples
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify manifests, original output count and ZIP
+        run: python verify_public.py

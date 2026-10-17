@@ -1,0 +1,317 @@
+{
+  "method": "Same prompt, one bundled generation per selected UI model, original outputs unchanged; not a controlled benchmark.",
+  "models": {
+    "argon": {
+      "ui_label": "Gemini 4 Argon",
+      "originals_unchanged": true,
+      "checks": [
+        {
+          "test": "costs_8_rows_all_56_numeric_cells",
+          "status": "PASS"
+        },
+        {
+          "test": "factcheck_6_ids_verdicts",
+          "status": "PASS"
+        },
+        {
+          "test": "shorts_six_intervals",
+          "status": "PASS"
+        },
+        {
+          "test": "shorts_unsupported_claim_screen",
+          "status": "PASS"
+        },
+        {
+          "test": "shorts_planning_and_unmeasured_disclosure",
+          "status": "PASS"
+        },
+        {
+          "test": "html_source_inspected",
+          "status": "PASS"
+        }
+      ],
+      "viewports": [
+        {
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "tests": [
+            {
+              "test": "horizontal_overflow",
+              "status": "PASS"
+            },
+            {
+              "test": "visible_color_buttons_render_change",
+              "status": "PASS"
+            },
+            {
+              "test": "rotation_slider_keyboard",
+              "status": "PASS"
+            },
+            {
+              "test": "cost_plan_count_100_runs",
+              "status": "PASS"
+            },
+            {
+              "test": "invalid_count_inputs",
+              "status": "PASS"
+            },
+            {
+              "test": "javascript_errors",
+              "status": "PASS"
+            },
+            {
+              "test": "no_external_requests",
+              "status": "PASS"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "tests": [
+            {
+              "test": "horizontal_overflow",
+              "status": "FAIL"
+            },
+            {
+              "test": "visible_color_buttons_render_change",
+              "status": "PASS"
+            },
+            {
+              "test": "rotation_slider_keyboard",
+              "status": "PASS"
+            },
+            {
+              "test": "cost_plan_count_100_runs",
+              "status": "PASS"
+            },
+            {
+              "test": "invalid_count_inputs",
+              "status": "PASS"
+            },
+            {
+              "test": "javascript_errors",
+              "status": "PASS"
+            },
+            {
+              "test": "no_external_requests",
+              "status": "PASS"
+            }
+          ]
+        }
+      ]
+    },
+    "sol": {
+      "ui_label": "GPT-6.1 Sol Medium",
+      "originals_unchanged": true,
+      "checks": [
+        {
+          "test": "costs_8_rows_all_56_numeric_cells",
+          "status": "PASS"
+        },
+        {
+          "test": "factcheck_6_ids_verdicts",
+          "status": "PASS"
+        },
+        {
+          "test": "shorts_six_intervals",
+          "status": "PASS"
+        },
+        {
+          "test": "shorts_unsupported_claim_screen",
+          "status": "PASS"
+        },
+        {
+          "test": "shorts_planning_and_unmeasured_disclosure",
+          "status": "PASS"
+        },
+        {
+          "test": "html_source_inspected",
+          "status": "PASS"
+        }
+      ],
+      "viewports": [
+        {
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "tests": [
+            {
+              "test": "horizontal_overflow",
+              "status": "PASS"
+            },
+            {
+              "test": "visible_color_buttons_render_change",
+              "status": "PASS"
+            },
+            {
+              "test": "rotation_slider_keyboard",
+              "status": "PASS"
+            },
+            {
+              "test": "cost_plan_count_100_runs",
+              "status": "PASS"
+            },
+            {
+              "test": "invalid_count_inputs",
+              "status": "PASS"
+            },
+            {
+              "test": "javascript_errors",
+              "status": "PASS"
+            },
+            {
+              "test": "no_external_requests",
+              "status": "PASS"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "tests": [
+            {
+              "test": "horizontal_overflow",
+              "status": "PASS"
+            },
+            {
+              "test": "visible_color_buttons_render_change",
+              "status": "PASS"
+            },
+            {
+              "test": "rotation_slider_keyboard",
+              "status": "PASS"
+            },
+            {
+              "test": "cost_plan_count_100_runs",
+              "status": "PASS"
+            },
+            {
+              "test": "invalid_count_inputs",
+              "status": "PASS"
+            },
+            {
+              "test": "javascript_errors",
+              "status": "PASS"
+            },
+            {
+              "test": "no_external_requests",
+              "status": "PASS"
+            }
+          ]
+        }
+      ]
+    },
+    "opus": {
+      "ui_label": "Claude Opus 5.5",
+      "originals_unchanged": true,
+      "checks": [
+        {
+          "test": "costs_8_rows_all_56_numeric_cells",
+          "status": "PASS"
+        },
+        {
+          "test": "factcheck_6_ids_verdicts",
+          "status": "PASS"
+        },
+        {
+          "test": "shorts_six_intervals",
+          "status": "PASS"
+        },
+        {
+          "test": "shorts_unsupported_claim_screen",
+          "status": "PASS"
+        },
+        {
+          "test": "shorts_planning_and_unmeasured_disclosure",
+          "status": "PASS"
+        },
+        {
+          "test": "html_source_inspected",
+          "status": "PASS"
+        }
+      ],
+      "viewports": [
+        {
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          },
+          "tests": [
+            {
+              "test": "horizontal_overflow",
+              "status": "PASS"
+            },
+            {
+              "test": "visible_color_buttons_render_change",
+              "status": "PASS"
+            },
+            {
+              "test": "rotation_slider_keyboard",
+              "status": "PASS"
+            },
+            {
+              "test": "cost_plan_count_100_runs",
+              "status": "PASS"
+            },
+            {
+              "test": "invalid_count_inputs",
+              "status": "PASS"
+            },
+            {
+              "test": "javascript_errors",
+              "status": "PASS"
+            },
+            {
+              "test": "no_external_requests",
+              "status": "PASS"
+            }
+          ]
+        },
+        {
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "tests": [
+            {
+              "test": "horizontal_overflow",
+              "status": "PASS"
+            },
+            {
+              "test": "visible_color_buttons_render_change",
+              "status": "PASS"
+            },
+            {
+              "test": "rotation_slider_keyboard",
+              "status": "PASS"
+            },
+            {
+              "test": "cost_plan_count_100_runs",
+              "status": "PASS"
+            },
+            {
+              "test": "invalid_count_inputs",
+              "status": "PASS"
+            },
+            {
+              "test": "javascript_errors",
+              "status": "PASS"
+            },
+            {
+              "test": "no_external_requests",
+              "status": "PASS"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>모아컵 실습실</title>
+<style>
+:root {
+  --bg: #f3f2ec;
+  --paper: #fffef9;
+  --ink: #182f32;
+  --muted: #526365;
+  --line: #d4dbd5;
+  --accent: #215b4b;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.65;
+}
+button, input, select { font: inherit; }
+button, select, input { color: var(--ink); }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+  outline: 3px solid #985015;
+  outline-offset: 4px;
+}
+.skip {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 5;
+  padding: 12px;
+  background: white;
+}
+.skip:focus { top: 12px; }
+.shell { max-width: 1280px; margin: auto; padding: 30px 36px 40px; }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.brand { font-weight: 800; letter-spacing: -.04em; font-size: 22px; }
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: .03em;
+  border: 1px solid #bbc8bd;
+  border-radius: 100px;
+  padding: 6px 12px;
+}
+.intro { margin: 35px 0 25px; }
+.eyebrow { color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .12em; }
+h1 { font-size: clamp(32px, 4vw, 52px); line-height: 1.2; letter-spacing: -.065em; margin: 10px 0 16px; }
+h2 { font-size: 24px; letter-spacing: -.04em; margin: 0 0 8px; }
+p { margin: 0 0 14px; }
+.sub { color: var(--muted); max-width: 650px; }
+.layout { display: grid; grid-template-columns: 1.08fr 1fr; gap: 24px; align-items: start; }
+.card { border: 1px solid var(--line); border-radius: 26px; background: var(--paper); overflow: hidden; }
+.stage {
+  position: relative;
+  height: 370px;
+  background: radial-gradient(ellipse at 50% 40%, #fffdf0 0, #e5e9df 75%);
+}
+.stage-label { position: absolute; left: 22px; top: 18px; font-size: 12px; color: #425551; }
+canvas { display: block; width: 100%; height: 100%; }
+.visual-caption { padding: 12px 24px 0; color: var(--muted); font-size: 12px; }
+.panel { padding: 24px; }
+.product-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.price { font-size: 22px; font-weight: 800; white-space: nowrap; }
+.specs { display: flex; flex-wrap: wrap; gap: 8px; margin: 15px 0 22px; }
+.specs span { background: #edf0e9; padding: 5px 11px; border-radius: 8px; font-size: 13px; }
+.field-title { display: block; font-size: 14px; font-weight: 750; margin-bottom: 9px; }
+.colors { display: flex; gap: 10px; margin-bottom: 22px; }
+.color-btn {
+  min-height: 44px;
+  border: 1px solid #9baea4;
+  border-radius: 12px;
+  background: transparent;
+  padding: 9px 15px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.color-btn[aria-pressed="true"] { border: 2px solid var(--accent); background: #eaf0e6; padding: 8px 14px; font-weight: 750; }
+.dot { width: 16px; height: 16px; border-radius: 50%; border: 1px solid #6e7777; }
+.cream { background: #e9dfc6; }
+.navy { background: #233b59; }
+.slider-title { display: flex; justify-content: space-between; gap: 12px; }
+input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--accent); margin: 0; }
+.calculator { padding: 27px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+select, input[type="number"] {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #849a8e;
+  border-radius: 11px;
+  padding: 10px 12px;
+  background: white;
+}
+.help { font-size: 12px; color: var(--muted); margin-top: 7px; }
+.error { min-height: 24px; margin: 5px 0; font-size: 13px; color: #9b231e; font-weight: 650; }
+.total {
+  margin: 12px 0 22px;
+  padding: 22px;
+  border-radius: 18px;
+  background: var(--ink);
+  color: #fffef6;
+}
+.total-label { font-size: 13px; color: #d3e2d6; }
+.total strong { display: block; font-size: clamp(30px, 3vw, 40px); line-height: 1.4; overflow-wrap: anywhere; }
+.usd { color: #d3e2d6; font-size: 14px; }
+dl { margin: 0; }
+dl div { display: flex; justify-content: space-between; gap: 14px; border-bottom: 1px solid #e2e6df; padding: 10px 0; font-size: 14px; }
+dt { color: var(--muted); }
+dd { margin: 0; font-weight: 700; text-align: right; overflow-wrap: anywhere; }
+.rates { margin-top: 20px; padding: 15px; background: #f0f2eb; border-radius: 12px; font-size: 12px; }
+.rates p:last-child { margin-bottom: 0; }
+.notice { margin-top: 24px; padding: 23px 26px; background: #e7ece3; border-radius: 20px; border: 1px solid #c7d2c4; }
+.notice h2 { font-size: 17px; }
+.notice p { font-size: 13px; margin-bottom: 8px; }
+.notice p:last-child { margin-bottom: 0; }
+footer { color: var(--muted); font-size: 12px; margin-top: 22px; }
+@media (max-width: 760px) {
+  .shell { padding: 20px 18px 28px; }
+  header { align-items: flex-start; }
+  .brand { font-size: 20px; }
+  .tag { font-size: 11px; }
+  .intro { margin-top: 27px; }
+  .layout { grid-template-columns: 1fr; gap: 18px; }
+  .stage { height: 310px; }
+  .panel, .calculator { padding: 21px; }
+  .form-grid { grid-template-columns: 1fr; gap: 12px; }
+  .notice { padding: 20px; }
+  .price { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문으로 이동</a>
+<div class="shell">
+  <header>
+    <div class="brand">모아컵 실습실<span aria-hidden="true">.</span></div>
+    <span class="tag">가상 자료 · 비교 실습</span>
+  </header>
+  <main id="main">
+    <section class="intro" aria-labelledby="title">
+      <div class="eyebrow">MOA CUP / INTERACTIVE STUDY</div>
+      <h1 id="title">한 잔의 취향,<br>한눈에 보는 비용.</h1>
+      <p class="sub">색상을 바꾸고 컵을 돌려 보세요. 아래 계산기는 가상 업무 단가와 작업 횟수로 예상 비용을 계산합니다.</p>
+    </section>
+
+    <div class="layout">
+      <section class="card" aria-labelledby="product-title">
+        <div class="stage">
+          <span class="stage-label" aria-hidden="true">CANVAS STUDY / 01</span>
+          <canvas id="cup" role="img" aria-label="크림 색상 컵의 직접 코딩한 개념 시각화. 실제 제품 사진이 아닙니다.">
+            직접 코딩한 컵의 개념 시각화입니다. 색상과 회전은 아래 조작부에서 변경할 수 있습니다.
+          </canvas>
+        </div>
+        <p class="visual-caption">직접 코딩한 Canvas 시각화 · 제품 사진 아님 · 실제 외형과 치수는 미제공</p>
+        <div class="panel">
+          <div class="product-head">
+            <h2 id="product-title">모아컵</h2>
+            <div class="price">24,900원</div>
+          </div>
+          <div class="specs" aria-label="상품 기본 정보">
+            <span>450mL</span><span>280g</span><span>본체 스테인리스</span><span>뚜껑 PP</span>
+          </div>
+          <div class="field-title" id="color-label">색상 선택</div>
+          <div class="colors" role="group" aria-labelledby="color-label">
+            <button type="button" class="color-btn" data-color="cream" aria-pressed="true">
+              <span class="dot cream" aria-hidden="true"></span>크림
+            </button>
+            <button type="button" class="color-btn" data-color="navy" aria-pressed="false">
+              <span class="dot navy" aria-hidden="true"></span>네이비
+            </button>
+          </div>
+          <div class="slider-title">
+            <label class="field-title" for="rotation">컵 회전</label>
+            <output id="angle" for="rotation">25°</output>
+          </div>
+          <input id="rotation" type="range" min="0" max="360" step="1" value="25" aria-describedby="rotation-help">
+          <p class="help" id="rotation-help">방향키로 1°씩 조절합니다. 컵의 회전은 뚜껑 위 표시선으로 확인할 수 있습니다.</p>
+        </div>
+      </section>
+
+      <section class="card calculator" aria-labelledby="calc-title">
+        <div class="eyebrow">COST SIMULATOR / 02</div>
+        <h2 id="calc-title">작업 비용 계산기</h2>
+        <p class="sub">실제 AI 제공사 요금이 아닌 가상 단가입니다.</p>
+        <div class="form-grid">
+          <div>
+            <label class="field-title" for="plan">가상 단가 선택</label>
+            <select id="plan">
+              <option value="a">가형 · 입력 $2 / 출력 $10</option>
+              <option value="b">나형 · 입력 $4 / 출력 $20</option>
+            </select>
+            <p class="help">각각 100만 토큰당 USD 단가</p>
+          </div>
+          <div>
+            <label class="field-title" for="runs">작업 수</label>
+            <input id="runs" type="number" min="1" max="1000000" step="1" value="25" inputmode="numeric" aria-describedby="runs-help error">
+            <p class="help" id="runs-help">계산기 입력 범위: 1~1,000,000회 정수</p>
+          </div>
+        </div>
+        <p id="error" class="error" role="alert"></p>
+        <div id="results" aria-live="polite" aria-atomic="true">
+          <div class="total">
+            <div class="total-label">누적 예상 비용</div>
+            <strong id="total-krw">1,400원</strong>
+            <span class="usd" id="total-usd">$1.00 USD</span>
+          </div>
+          <dl>
+            <div><dt>누적 입력 토큰</dt><dd id="input-tokens">250,000</dd></div>
+            <div><dt>누적 출력 토큰</dt><dd id="output-tokens">50,000</dd></div>
+            <div><dt>입력 비용</dt><dd id="input-cost">$0.50</dd></div>
+            <div><dt>출력 비용</dt><dd id="output-cost">$0.50</dd></div>
+            <div><dt>작업 1회 비용</dt><dd id="unit-cost">$0.04 · 56원</dd></div>
+          </dl>
+        </div>
+        <div class="rates">
+          <p>작업 1회 = 입력 10,000토큰 + 출력 2,000토큰</p>
+          <p>가형: 입력 $2 · 출력 $10 / 100만 토큰<br>나형: 입력 $4 · 출력 $20 / 100만 토큰</p>
+          <p>계산 가정: 1달러 = 1,400원. 세금·캐싱·도구 호출 비용은 제외합니다. 상품 가격은 업무 비용 계산에 포함하지 않습니다.</p>
+        </div>
+      </section>
+    </div>
+
+    <section class="notice" aria-labelledby="notice-title">
+      <h2 id="notice-title">자료로 확인할 수 있는 범위</h2>
+      <p>모아컵은 테스트용 가상 상품입니다. 용량 450mL, 무게 280g, 가격 24,900원이며, 본체는 스테인리스, 뚜껑은 폴리프로필렌입니다. 색상은 크림·네이비이며 손 세척을 권장합니다.</p>
+      <p><strong>식기세척기 사용 가능 여부·보온 시간·누수 방지·의학적 효과는 확인 자료가 없습니다.</strong> 자료가 없다는 이유로 해당 성능이 없다고 단정하지 않습니다. 구매 링크는 제공되지 않았습니다.</p>
+    </section>
+  </main>
+  <footer>모든 시각화와 계산은 이 파일 안에서 실행됩니다. 외부 라이브러리·폰트·이미지·네트워크 요청을 사용하지 않습니다.</footer>
+  <noscript><p>상호작용에는 JavaScript가 필요합니다. 기본 표시값은 크림 색상, 가형 25회 기준입니다.</p></noscript>
+</div>
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const canvas = $("cup");
+const ctx = canvas.getContext("2d");
+const rotation = $("rotation");
+let selectedColor = "cream";
+let width = 1;
+let height = 1;
+const palettes = {
+  cream: [226, 215, 187],
+  navy: [35, 59, 87]
+};
+
+/* 직접 작성한 다각형 메시를 회전·투영해 그립니다.
+   형상은 실습용이며 실제 제품 구조나 치수를 뜻하지 않습니다. */
+function drawCup() {
+  if (!ctx) return;
+  ctx.clearRect(0, 0, width, height);
+  const scale = Math.min(width / 3.5, height / 3.2);
+  const angle = Number(rotation.value) * Math.PI / 180;
+  const tilt = 0.25;
+  function project(x, y, z) {
+    const rx = x * Math.cos(angle) + z * Math.sin(angle);
+    const rz = -x * Math.sin(angle) + z * Math.cos(angle);
+    return {
+      x: width / 2 + rx * scale,
+      y: height / 2 + (y * Math.cos(tilt) - rz * Math.sin(tilt)) * scale,
+      depth: y * Math.sin(tilt) + rz * Math.cos(tilt),
+      rx,
+      rz
+    };
+  }
+  ctx.save();
+  ctx.translate(width / 2, height / 2 + scale * 1.13);
+  ctx.scale(1, 0.22);
+  const shadow = ctx.createRadialGradient(0, 0, 0, 0, 0, scale * 1.12);
+  shadow.addColorStop(0, "rgba(24,47,32,.25)");
+  shadow.addColorStop(1, "rgba(24,47,32,0)");
+  ctx.fillStyle = shadow;
+  ctx.beginPath();
+  ctx.arc(0, 0, scale * 1.12, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  const faces = [];
+  const segments = 96;
+  const base = palettes[selectedColor];
+  for (let i = 0; i < segments; i++) {
+    const a = i * Math.PI * 2 / segments;
+    const b = (i + 1) * Math.PI * 2 / segments;
+    const points = [
+      project(Math.cos(a) * .74, -.92, Math.sin(a) * .74),
+      project(Math.cos(b) * .74, -.92, Math.sin(b) * .74),
+      project(Math.cos(b) * .59, 1.02, Math.sin(b) * .59),
+      project(Math.cos(a) * .59, 1.02, Math.sin(a) * .59)
+    ];
+    const normalX = Math.cos((a + b) / 2 + angle);
+    const light = .78 + .18 * normalX;
+    const rgb = base.map(v => Math.round(Math.min(255, v * light + 12)));
+    faces.push({
+      points,
+      depth: points.reduce((sum, p) => sum + p.depth, 0) / 4,
+      color: `rgb(${rgb.join(",")})`
+    });
+  }
+  faces.sort((a, b) => a.depth - b.depth);
+  function polygon(points, fill, stroke) {
+    ctx.beginPath();
+    points.forEach((p, i) => {
+      if (i === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
+    });
+    ctx.closePath();
+    ctx.fillStyle = fill;
+    ctx.fill();
+    if (stroke) {
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = .7;
+      ctx.stroke();
+    }
+  }
+  faces.forEach(face => polygon(face.points, face.color, face.color));
+
+  function circle(radius, y) {
+    return Array.from({length: segments}, (_, i) => {
+      const a = i * Math.PI * 2 / segments;
+      return project(Math.cos(a) * radius, y, Math.sin(a) * radius);
+    });
+  }
+  polygon(circle(.78, -.93), "#53605a");
+  polygon(circle(.78, -1.01), "#a6ada0", "#53605a");
+  polygon(circle(.68, -1.025), "#c8cebd", "#7f8d7c");
+
+  const start = project(0, -1.04, 0);
+  const end = project(.46, -1.04, .14);
+  ctx.beginPath();
+  ctx.moveTo(start.x, start.y);
+  ctx.lineTo(end.x, end.y);
+  ctx.strokeStyle = "#394d41";
+  ctx.lineWidth = 4;
+  ctx.lineCap = "round";
+  ctx.stroke();
+}
+function resizeCanvas() {
+  const rect = canvas.getBoundingClientRect();
+  width = rect.width;
+  height = rect.height;
+  const dpr = Math.min(window.devicePixelRatio || 1, 3);
+  canvas.width = Math.round(width * dpr);
+  canvas.height = Math.round(height * dpr);
+  if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  drawCup();
+}
+if ("ResizeObserver" in window) {
+  new ResizeObserver(resizeCanvas).observe(canvas);
+} else {
+  window.addEventListener("resize", resizeCanvas);
+}
+resizeCanvas();
+
+document.querySelectorAll("[data-color]").forEach(button => {
+  button.addEventListener("click", () => {
+    selectedColor = button.dataset.color;
+    document.querySelectorAll("[data-color]").forEach(item => {
+      item.setAttribute("aria-pressed", String(item === button));
+    });
+    const name = selectedColor === "cream" ? "크림" : "네이비";
+    canvas.setAttribute("aria-label", `${name} 색상 컵의 직접 코딩한 개념 시각화. 실제 제품 사진이 아닙니다.`);
+    drawCup();
+  });
+});
+rotation.addEventListener("input", () => {
+  $("angle").textContent = rotation.value + "°";
+  rotation.setAttribute("aria-valuetext", rotation.value + "도");
+  drawCup();
+});
+
+const numberFormat = new Intl.NumberFormat("ko-KR");
+const usd = cents => "$" + (cents / 100).toFixed(2);
+const resultIds = [
+  "total-krw", "total-usd", "input-tokens",
+  "output-tokens", "input-cost", "output-cost", "unit-cost"
+];
+function calculate() {
+  const field = $("runs");
+  const raw = field.value.trim();
+  const count = Number(raw);
+  const valid = raw !== "" && Number.isSafeInteger(count) &&
+    count >= 1 && count <= 1000000 && field.validity.valid;
+
+  field.setAttribute("aria-invalid", String(!valid));
+  if (!valid) {
+    $("error").textContent = "작업 수에 1~1,000,000 사이의 정수를 입력해 주세요.";
+    resultIds.forEach(id => { $(id).textContent = "—"; });
+    return;
+  }
+  $("error").textContent = "";
+  const rates = $("plan").value === "a"
+    ? {input: 2, output: 10}
+    : {input: 4, output: 20};
+  const inputTokens = count * 10000;
+  const outputTokens = count * 2000;
+
+  /* 정수 센트로 계산해 누적 통화 오차를 피합니다.
+     10,000 × 입력 단가 / 1,000,000 USD = 입력 단가 센트.
+     2,000 × 출력 단가 / 1,000,000 USD = 출력 단가 / 5 센트. */
+  const inputCents = count * rates.input;
+  const outputCents = count * (rates.output / 5);
+  const totalCents = inputCents + outputCents;
+  const unitCents = rates.input + rates.output / 5;
+  const won = totalCents * 14;
+
+  $("total-krw").textContent = numberFormat.format(won) + "원";
+  $("total-usd").textContent = usd(totalCents) + " USD";
+  $("input-tokens").textContent = numberFormat.format(inputTokens);
+  $("output-tokens").textContent = numberFormat.format(outputTokens);
+  $("input-cost").textContent = usd(inputCents);
+  $("output-cost").textContent = usd(outputCents);
+  $("unit-cost").textContent = usd(unitCents) + " · " +
+    numberFormat.format(unitCents * 14) + "원";
+}
+$("plan").addEventListener("change", calculate);
+$("runs").addEventListener("input", calculate);
+calculate();
+</script>
+</body>
+</html>
